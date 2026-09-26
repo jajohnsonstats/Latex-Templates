@@ -1,0 +1,8 @@
+* text=auto
+# Shell scripts must keep LF endings, or bash in WSL fails with $'\r' errors
+*.sh text eol=lf
+*.pdf binary
+*.png binary
+*.jpg binary
+*.otf binary
+*.ttf binary
