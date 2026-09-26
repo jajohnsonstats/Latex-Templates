@@ -1,0 +1,169 @@
+%% beamerthemejajclassic.sty
+%% Traditional slide theme for talks, modeled on the older Madison
+%% beamer theme: a full-width colored bar for frame titles, round
+%% bullets, rounded blocks, and a centered title slide.
+%%
+%%   \usetheme[institution=uwmadison]{jajclassic}
+%%
+%% Options (all optional, combine with commas) -- the same as jajtalk,
+%% so you can switch between the two by changing only the theme name:
+%%   institution=<name>   reads jaj-inst-<name>.def (default uwmadison)
+%%   nologo               no crest in frame titles
+%%   nosectionslides      no automatic slide at each \section
+%%   noslidenumbers       no "3 / 20" in the footer
+%%
+%% Needs jaj-branding.sty and beamercolorthemejaj.sty (in beamer/).
+%% Written from scratch; no code from the original Madison theme.
+\ProvidesPackage{beamerthemejajclassic}[2026/09/27 Traditional talk theme]
+
+%% ----------------------------- OPTIONS -----------------------------
+\def\jajclassic@inst{uwmadison}
+\newif\ifjajclassic@logo          \jajclassic@logotrue
+\newif\ifjajclassic@sectionslides \jajclassic@sectionslidestrue
+\newif\ifjajclassic@numbers       \jajclassic@numberstrue
+\DeclareOptionBeamer{institution}{\def\jajclassic@inst{#1}}
+\DeclareOptionBeamer{nologo}{\jajclassic@logofalse}
+\DeclareOptionBeamer{nosectionslides}{\jajclassic@sectionslidesfalse}
+\DeclareOptionBeamer{noslidenumbers}{\jajclassic@numbersfalse}
+\ProcessOptionsBeamer
+
+%% --------------------------- DEPENDENCIES --------------------------
+\edef\jajclassic@load{\noexpand\RequirePackage[institution=\jajclassic@inst]{jaj-branding}}
+\jajclassic@load
+\usecolortheme{jaj}
+\useinnertheme{circles}            % round bullets
+\usefonttheme{professionalfonts}   % leave math fonts alone
+
+\mode<presentation>
+
+%% ----------------------------- COLORS ------------------------------
+%% Adjustments to beamercolorthemejaj for this look. Everything is
+%% derived from the institution's colors, so it follows a switch.
+\setbeamercolor{frametitle}{fg=jajOnPrimary, bg=jajPrimary}
+\setbeamercolor{framesubtitle}{fg=jajOnPrimary!85!jajPrimary}
+\setbeamercolor{title}{fg=jajOnPrimary, bg=jajPrimary}
+\setbeamercolor{subtitle}{fg=jajOnPrimary!85!jajPrimary}
+\setbeamercolor{itemize subitem}{fg=jajDark}
+\setbeamercolor{enumerate subitem}{fg=jajDark}
+\setbeamercolor{block title}{fg=jajOnPrimary, bg=jajPrimary}
+\setbeamercolor{block body}{fg=jajText, bg=jajPrimary!8}
+\setbeamercolor{block title alerted}{fg=jajOnPrimary, bg=jajDark}
+\setbeamercolor{block body alerted}{fg=jajText, bg=jajLight}
+\setbeamercolor{block title example}{fg=jajText, bg=jajLight}
+\setbeamercolor{block body example}{fg=jajText, bg=jajLight!40}
+\setbeamercolor{footline text}{fg=jajText!60}
+
+%% ----------------------------- FONTS -------------------------------
+\setbeamerfont{title}{size=\Large}
+\setbeamerfont{subtitle}{size=\normalsize}
+\setbeamerfont{author}{size=\normalsize}
+\setbeamerfont{institute}{size=\small}
+\setbeamerfont{date}{size=\small}
+\setbeamerfont{frametitle}{size=\Large}
+\setbeamerfont{framesubtitle}{size=\footnotesize}
+\setbeamerfont{block title}{size=\normalsize}
+\setbeamerfont{footline}{size=\scriptsize}
+\setbeamerfont{caption}{size=\footnotesize}
+
+%% ----------------------------- GENERAL -----------------------------
+\setbeamersize{text margin left=1em, text margin right=1em}
+\beamertemplatenavigationsymbolsempty
+\setbeamertemplate{blocks}[rounded][shadow=false]
+\setbeamertemplate{theorems}[numbered]
+\setbeamertemplate{caption}[numbered]
+
+%% Compact, uncolored bibliography entries (author-year friendly)
+\setbeamertemplate{bibliography item}{}
+\setbeamertemplate{bibliography entry article}{}
+\setbeamertemplate{bibliography entry title}{}
+\setbeamertemplate{bibliography entry location}{}
+\setbeamertemplate{bibliography entry note}{}
+
+%% \event{...}: the meeting or seminar, shown on the title slide.
+\def\jajclassic@event{}
+\newcommand{\event}[1]{\def\jajclassic@event{#1}}
+
+%% --------------------------- FRAME TITLE ---------------------------
+%% Full-width colored bar: title (and optional subtitle) on the left,
+%% crest on the right.
+\newlength{\jajclassic@logospace}
+\setbeamertemplate{frametitle}{%
+  \ifjajclassic@logo
+    \jajiflogo{\setlength{\jajclassic@logospace}{0.9cm}}{\setlength{\jajclassic@logospace}{0pt}}%
+  \else
+    \setlength{\jajclassic@logospace}{0pt}%
+  \fi
+  \nointerlineskip
+  \begin{beamercolorbox}[wd=\paperwidth]{frametitle}%
+    \vskip1.1ex
+    \hbox to \paperwidth{%
+      \hskip1em
+      \parbox[c]{\dimexpr\paperwidth-2em-\jajclassic@logospace\relax}{%
+        \raggedright
+        {\usebeamerfont{frametitle}\strut\insertframetitle\strut\par}%
+        \ifx\insertframesubtitle\@empty\else
+          {\usebeamerfont{framesubtitle}\usebeamercolor[fg]{framesubtitle}%
+           \insertframesubtitle\strut\par}%
+        \fi}%
+      \hfill
+      \ifdim\jajclassic@logospace>0pt
+        \parbox[c]{0.6cm}{\jajlogo[height=0.6cm]}%
+      \fi
+      \hskip1em}%
+    \vskip1.1ex
+  \end{beamercolorbox}%
+  \vskip0.5ex
+}
+
+%% ----------------------------- FOOTER ------------------------------
+%% Slide number on the right.
+\setbeamertemplate{footline}{%
+  \ifjajclassic@numbers
+    \usebeamerfont{footline}\usebeamercolor[fg]{footline text}%
+    \hbox to \paperwidth{\hfill\insertframenumber\,/\,\inserttotalframenumber\hskip1em}%
+  \fi
+  \vskip1ex}
+
+%% ---------------------------- TITLE PAGE ---------------------------
+%% Centered: title in a rounded colored box, then authors, event and
+%% date, and the wide logo at the bottom.
+\setbeamertemplate{title page}{%
+  \vfill
+  \begin{centering}
+    \begin{beamercolorbox}[sep=8pt, center, rounded=true, shadow=false]{title}%
+      \usebeamerfont{title}\inserttitle\par
+      \ifx\insertsubtitle\@empty\else
+        \vskip0.3em
+        {\usebeamerfont{subtitle}\usebeamercolor[fg]{subtitle}\insertsubtitle\par}%
+      \fi
+    \end{beamercolorbox}%
+    \vskip1.5em
+    {\usebeamerfont{author}\insertauthor\par}%
+    \ifx\insertinstitute\@empty\else
+      \vskip0.4em{\usebeamerfont{institute}\insertinstitute\par}%
+    \fi
+    \vskip1.2em
+    {\usebeamerfont{date}%
+     \ifx\jajclassic@event\@empty\else\jajclassic@event\par\fi
+     \insertdate\par}%
+    \jajifwidelogo{\vskip1.5em\jajwidelogo[height=1.3cm]\par}{}%
+  \end{centering}
+  \vfill
+}
+
+%% -------------------------- SECTION SLIDES -------------------------
+%% A slide with the section name in a rounded colored box.
+\ifjajclassic@sectionslides
+  \AtBeginSection[]{%
+    \begin{frame}[plain,noframenumbering]
+      \vfill
+      \begin{centering}
+        \begin{beamercolorbox}[sep=10pt, center, rounded=true, shadow=false]{title}%
+          \usebeamerfont{title}\insertsectionhead\par
+        \end{beamercolorbox}%
+      \end{centering}
+      \vfill
+    \end{frame}}
+\fi
+
+\mode<all>
