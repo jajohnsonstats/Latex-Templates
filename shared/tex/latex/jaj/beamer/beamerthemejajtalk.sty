@@ -1,0 +1,131 @@
+%% beamerthemejajtalk.sty
+%% Slide layout theme for talks.
+%%
+%%   \usetheme[institution=uwmadison]{jajtalk}
+%%
+%% Options (all optional, combine with commas):
+%%   institution=<name>   reads jaj-inst-<name>.def (default uwmadison)
+%%   nologo               no crest in frame titles
+%%   nosectionslides      no automatic slide at each \section
+%%   noslidenumbers       no "3 / 20" in the footer
+%%
+%% Layout only. Colors: beamercolorthemejaj. Blocks, lists, theorems,
+%% bibliography: beamerinnerthemejaj (shared with the poster theme).
+\ProvidesPackage{beamerthemejajtalk}[2026/09/25 Talk layout theme]
+
+%% ----------------------------- OPTIONS -----------------------------
+\def\jajtalk@inst{uwmadison}
+\newif\ifjajtalk@logo          \jajtalk@logotrue
+\newif\ifjajtalk@sectionslides \jajtalk@sectionslidestrue
+\newif\ifjajtalk@numbers       \jajtalk@numberstrue
+\DeclareOptionBeamer{institution}{\def\jajtalk@inst{#1}}
+\DeclareOptionBeamer{nologo}{\jajtalk@logofalse}
+\DeclareOptionBeamer{nosectionslides}{\jajtalk@sectionslidesfalse}
+\DeclareOptionBeamer{noslidenumbers}{\jajtalk@numbersfalse}
+\ProcessOptionsBeamer
+
+%% --------------------------- DEPENDENCIES --------------------------
+\edef\jajtalk@load{\noexpand\RequirePackage[institution=\jajtalk@inst]{jaj-branding}}
+\jajtalk@load
+\usecolortheme{jaj}
+\useinnertheme{jaj}
+\usefonttheme{professionalfonts}   % leave math fonts alone
+
+\mode<presentation>
+
+%% ----------------------------- FONTS -------------------------------
+\setbeamerfont{title}{family=\jajheadfamily, size=\LARGE, series=\bfseries}
+\setbeamerfont{subtitle}{size=\large}
+\setbeamerfont{author}{size=\normalsize}
+\setbeamerfont{institute}{size=\small}
+\setbeamerfont{date}{size=\small}
+\setbeamerfont{frametitle}{family=\jajheadfamily, size=\Large, series=\bfseries}
+\setbeamerfont{framesubtitle}{size=\normalsize, series=\mdseries}
+\setbeamerfont{section title}{family=\jajheadfamily, size=\huge, series=\bfseries}
+\setbeamerfont{footline}{size=\scriptsize}
+\setbeamerfont{block title}{size=\normalsize}
+\setbeamerfont{caption}{size=\footnotesize}
+
+%% ----------------------------- GENERAL -----------------------------
+\setbeamersize{text margin left=1.5em, text margin right=1.5em}
+\beamertemplatenavigationsymbolsempty
+
+%% \event{...}: the meeting or seminar, shown on the title slide.
+\def\jajtalk@event{}
+\newcommand{\event}[1]{\def\jajtalk@event{#1}}
+
+%% --------------------------- FRAME TITLE ---------------------------
+%% Title (and optional subtitle) on the left, crest on the right, and a
+%% thin rule underneath.
+\setbeamertemplate{frametitle}{%
+  \vskip1.2ex
+  \begin{minipage}[c]{\dimexpr\textwidth-1.6em-\ifjajtalk@logo 2.5em\else 0pt\fi\relax}%
+    \raggedright
+    {\usebeamercolor[fg]{frametitle}\usebeamerfont{frametitle}\insertframetitle\par}%
+    \ifx\insertframesubtitle\@empty\else
+      \vskip0.2ex
+      {\usebeamercolor[fg]{framesubtitle}\usebeamerfont{framesubtitle}\insertframesubtitle\par}%
+    \fi
+  \end{minipage}%
+  \hfill
+  \ifjajtalk@logo
+    \jajiflogo{\raisebox{-0.5\height}{\jajlogo[height=2.2em]}}{}%
+  \fi
+  \par\vskip0.6ex
+  {\usebeamercolor[bg]{frametitle rule}\hbox{\rule{\textwidth}{0.6pt}}}%
+  \vskip0.4ex
+}
+
+%% ----------------------------- FOOTER ------------------------------
+%% Short title on the left, slide number on the right.
+\setbeamertemplate{footline}{%
+  \usebeamerfont{footline}\usebeamercolor[fg]{footline text}%
+  \hbox to \paperwidth{%
+    \hskip1.5em
+    \insertshorttitle
+    \hfill
+    \ifjajtalk@numbers\insertframenumber\,/\,\inserttotalframenumber\fi
+    \hskip1.5em}%
+  \vskip1.5ex}
+
+%% ---------------------------- TITLE PAGE ---------------------------
+%% Wide logo at the top, then title, a short rule, and the details.
+\setbeamertemplate{title page}{%
+  \vbox to 0.8\textheight{%
+    \jajifwidelogo{\jajwidelogo[height=1.1cm]\par}{}%
+    \vfill
+    \raggedright
+    {\usebeamercolor[fg]{title}\usebeamerfont{title}\inserttitle\par}%
+    \ifx\insertsubtitle\@empty\else
+      \vskip0.5ex
+      {\usebeamercolor[fg]{subtitle}\usebeamerfont{subtitle}\insertsubtitle\par}%
+    \fi
+    \vskip1.2ex
+    {\usebeamercolor[fg]{title}\rule{0.25\textwidth}{1.5pt}\par}%
+    \vskip1.2ex
+    {\usebeamerfont{author}\insertauthor\par}%
+    \ifx\insertinstitute\@empty\else
+      \vskip0.3ex{\usebeamerfont{institute}\insertinstitute\par}%
+    \fi
+    \vskip1.5ex
+    {\usebeamerfont{date}\usebeamercolor[fg]{footline text}%
+     \ifx\jajtalk@event\@empty\else\jajtalk@event\par\fi
+     \insertdate\par}%
+    \vfill}%
+}
+
+%% -------------------------- SECTION SLIDES -------------------------
+%% A full-color slide with the section name at each \section.
+\ifjajtalk@sectionslides
+  \AtBeginSection[]{%
+    {\setbeamercolor{background canvas}{bg=jajPrimary}%
+     \begin{frame}[plain,noframenumbering]
+       \vfill
+       {\usebeamerfont{section title}\color{jajOnPrimary}\insertsectionhead\par}%
+       \vskip1ex
+       {\color{jajOnPrimary}\rule{0.25\textwidth}{1.5pt}\par}%
+       \vfill
+     \end{frame}}}
+\fi
+
+\mode<all>

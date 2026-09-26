@@ -1,0 +1,120 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{jaj-macros}[2026/09/25 Math notation macros (no environments)]
+
+%% This file holds NOTATION ONLY, so it is safe to load in any document
+%% class (article, beamer, tikzposter, beamerposter, ...).
+%% Theorem-like environments live in jaj-theorems.sty.
+
+%% ---------------------------- PACKAGES ----------------------------
+\RequirePackage{amsmath}
+\RequirePackage{amssymb}
+\RequirePackage{mathtools}
+\RequirePackage{bm}
+\RequirePackage{bbm}
+\RequirePackage{xcolor}
+
+%% ---------------------- PROBABILITY OPERATORS ---------------------
+\DeclareMathOperator{\E}{\mathbb{E}}
+\DeclareMathOperator{\Var}{Var}
+\DeclareMathOperator{\Cov}{Cov}
+\DeclareMathOperator{\Corr}{Corr}
+\DeclareMathOperator{\KL}{KL}
+\DeclareMathOperator{\ELBO}{ELBO}
+
+%% ---------------------- DISTRIBUTION SHORTCUTS --------------------
+\newcommand{\Normal}{\mathcal{N}}
+\newcommand{\GP}{\mathcal{GP}}
+\newcommand{\Bern}{\mathrm{Bern}}
+\newcommand{\Bin}{\mathrm{Bin}}
+\newcommand{\Pois}{\mathrm{Pois}}
+\newcommand{\Unif}{\mathrm{Unif}}
+
+%% ---------------------- COMMON MATH OPERATORS ---------------------
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator{\diag}{diag}
+\DeclareMathOperator{\tr}{tr}
+\DeclareMathOperator{\blockdiag}{blockdiag}
+
+%% ---------------------- SETS, NORMS, INNER PRODUCTS ---------------
+%% Paired delimiters (mathtools). Three sizing forms for each:
+%%   \norm{x}          normal size (default)
+%%   \norm*{x}         auto-sized, i.e. \left ... \right
+%%   \norm[\big]{x}    manual size: \big, \Big, \bigg, \Bigg
+\DeclarePairedDelimiter{\set}{\{}{\}}
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\norm}{\lVert}{\rVert}
+\DeclarePairedDelimiterX{\inner}[2]{\langle}{\rangle}{#1,\, #2}
+
+%% Set-builder notation with a sized middle bar:
+%%   \setbuilder{x \in \domain}{f(x) > 0}   ->  { x in D | f(x) > 0 }
+\DeclarePairedDelimiterX{\setbuilder}[2]{\{}{\}}{#1 \;\delimsize\vert\; #2}
+
+\newcommand{\1}{\mathbbm{1}}
+
+%% ---------------------- VECTORS & MATRICES ------------------------
+\newcommand{\ba}{\mathbf{a}} \newcommand{\bA}{\mathbf{A}}
+\newcommand{\bb}{\mathbf{b}} \newcommand{\bB}{\mathbf{B}}
+\newcommand{\bc}{\mathbf{c}} \newcommand{\bC}{\mathbf{C}}
+\newcommand{\bd}{\mathbf{d}} \newcommand{\bD}{\mathbf{D}}
+\newcommand{\be}{\mathbf{e}} \newcommand{\bE}{\mathbf{E}}
+\newcommand{\bfzero}{\mathbf{0}}
+\newcommand{\bfone}{\mathbf{1}}
+\newcommand{\bfI}{\mathbf{I}}
+
+\newcommand{\bg}{\mathbf{g}} \newcommand{\bG}{\mathbf{G}}
+\newcommand{\bh}{\mathbf{h}} \newcommand{\bH}{\mathbf{H}}
+\newcommand{\bk}{\mathbf{k}} \newcommand{\bK}{\mathbf{K}}
+\newcommand{\bl}{\mathbf{l}} \newcommand{\bL}{\mathbf{L}}
+\newcommand{\bmv}{\mathbf{m}} \newcommand{\bM}{\mathbf{M}}
+\newcommand{\bn}{\mathbf{n}} \newcommand{\bN}{\mathbf{N}}
+\newcommand{\bp}{\mathbf{p}} \newcommand{\bP}{\mathbf{P}}
+\newcommand{\bq}{\mathbf{q}} \newcommand{\bQ}{\mathbf{Q}}
+\newcommand{\br}{\mathbf{r}} \newcommand{\bR}{\mathbf{R}}
+\newcommand{\bs}{\mathbf{s}} \newcommand{\bS}{\mathbf{S}}
+\newcommand{\bt}{\mathbf{t}} \newcommand{\bT}{\mathbf{T}}
+\newcommand{\bu}{\mathbf{u}} \newcommand{\bU}{\mathbf{U}}
+\newcommand{\bv}{\mathbf{v}} \newcommand{\bV}{\mathbf{V}}
+\newcommand{\bw}{\mathbf{w}} \newcommand{\bW}{\mathbf{W}}
+\newcommand{\bx}{\mathbf{x}} \newcommand{\bX}{\mathbf{X}}
+\newcommand{\by}{\mathbf{y}} \newcommand{\bY}{\mathbf{Y}}
+\newcommand{\bz}{\mathbf{z}} \newcommand{\bZ}{\mathbf{Z}}
+
+%% ---------------------- BOLD GREEK LETTERS ------------------------
+\newcommand{\bfalpha}{\bm{\alpha}}
+\newcommand{\bfbeta}{\bm{\beta}}
+\newcommand{\bfgamma}{\bm{\gamma}}
+\newcommand{\bfdelta}{\bm{\delta}}
+\newcommand{\bfeta}{\bm{\eta}}
+\newcommand{\bfmu}{\bm{\mu}}
+\newcommand{\bfnu}{\bm{\nu}}
+\newcommand{\bfomega}{\bm{\omega}}
+\newcommand{\bfpi}{\bm{\pi}}
+\newcommand{\bfpsi}{\bm{\psi}}
+\newcommand{\bfrho}{\bm{\rho}}
+\newcommand{\bfsigma}{\bm{\sigma}}
+\newcommand{\bftau}{\bm{\tau}}
+\newcommand{\bftheta}{\bm{\theta}}
+\newcommand{\bfxi}{\bm{\xi}}
+
+\newcommand{\bfSigma}{\bm{\Sigma}}
+\newcommand{\bfGamma}{\bm{\Gamma}}
+\newcommand{\bfLambda}{\bm{\Lambda}}
+\newcommand{\bfPsi}{\bm{\Psi}}
+\newcommand{\bfOmega}{\bm{\Omega}}
+
+%% ---------------------- DOMAIN-SPECIFIC NOTATION ------------------
+\newcommand{\domain}{\mathcal{D}}
+\newcommand{\locs}{\mathcal{S}}
+\newcommand{\evol}{\mathcal{A}}
+\newcommand{\levol}{\mathbf{A}}
+\newcommand{\grid}{\mathcal{G}}
+\newcommand{\map}{\mathcal{T}}
+
+%% ---------------------- MISCELLANEOUS -----------------------------
+%% \providecommand so documents (or todonotes) can define \todo first.
+\providecommand{\todo}[1]{\textcolor{red}{[TODO: #1]}}
+\newcommand{\kronecker}{\otimes}
+\newcommand{\order}{\mathcal{O}}
+
+\endinput

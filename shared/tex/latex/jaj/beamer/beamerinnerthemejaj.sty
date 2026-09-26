@@ -1,0 +1,110 @@
+%% beamerinnerthemejaj.sty
+%% Shared inner theme for the poster and talk themes: blocks, lists, theorems, captions, bibliography, and \heading. 
+%% Institution-agnostic;
+%% colors come from beamercolorthemejaj.
+%%
+%% Block code derived from the Gemini theme by Anish Athalye
+%% (https://github.com/anishathalye/gemini), MIT License,
+%% Copyright (c) 2018 Anish Athalye. See beamerthemejajposter.sty for
+%% the full notice.
+\ProvidesPackage{beamerinnerthemejaj}[2026/09/25 Shared inner theme]
+
+\RequirePackage{ragged2e}
+\mode<presentation>
+
+%% ----------------------------- LISTS -------------------------------
+\setbeamertemplate{itemize item}{\raise0.5ex\hbox{\vrule width 0.5ex height 0.5ex}}
+\setbeamertemplate{itemize subitem}{\raise0.3ex\hbox{\vrule width 0.5ex height 0.5ex}}
+\setbeamertemplate{itemize subsubitem}{\raise0.2ex\hbox{\vrule width 0.5ex height 0.5ex}}
+\setbeamertemplate{enumerate item}{\insertenumlabel.}
+\setbeamertemplate{enumerate subitem}{\insertsubenumlabel.}
+\setbeamertemplate{enumerate subsubitem}{\insertsubsubenumlabel.}
+
+%% ---------------------------- CAPTIONS -----------------------------
+\setbeamertemplate{caption}[numbered]
+\setbeamertemplate{caption label separator}[period]
+
+%% --------------------------- BIBLIOGRAPHY --------------------------
+%% Compact, uncolored entries (beamer otherwise breaks each entry into
+%% colored lines). No [label] in front of author-year entries.
+\setbeamertemplate{bibliography item}{}
+\setbeamertemplate{bibliography entry article}{}
+\setbeamertemplate{bibliography entry title}{}
+\setbeamertemplate{bibliography entry location}{}
+\setbeamertemplate{bibliography entry note}{}
+
+%% ---------------------------- THEOREMS -----------------------------
+%% Beamer's theorem/lemma/definition/... environments, typeset inline
+%% (like amsthm) instead of as nested blocks, and numbered.
+\setbeamertemplate{theorems}[numbered]
+\setbeamertemplate{theorem begin}{%
+  \par\smallskip\noindent
+  {\usebeamercolor[fg]{theorem head}\usebeamerfont{theorem head}\upshape
+   \inserttheoremname\inserttheoremnumber
+   \ifx\inserttheoremaddition\@empty\else\ (\inserttheoremaddition)\fi.}%
+  \ \itshape\ignorespaces}
+\setbeamertemplate{theorem end}{\par\smallskip}
+\setbeamerfont{theorem head}{series=\bfseries}
+
+%% ---------------------------- HEADING ------------------------------
+%% \heading{Text}: an unboxed sub-heading inside a block or frame.
+\newcommand\heading[1]{%
+  \par\medskip
+  {\usebeamerfont{heading}\usebeamercolor[fg]{heading}#1}\par\smallskip}
+\setbeamerfont{heading}{family=\jajheadfamily, series=\bfseries}
+
+%% ----------------------------- BLOCKS ------------------------------
+%% One implementation for all three block types. A block whose title
+%% color has a background gets a filled bar; one without gets a colored
+%% title over a rule. A body with a background gets inner padding.
+%% Outer themes may change:
+%%   \jajblockalign   text alignment in block bodies (default \raggedright)
+%%   \jajblockafter   space after a block (default 2ex)
+\newcommand{\jajblockalign}{\raggedright}
+\newcommand{\jajblockafter}{2ex}
+\newlength{\jajblock@pad}
+\setlength{\jajblock@pad}{1ex}
+\setbeamerfont{block title}{family=\jajheadfamily, series=\bfseries}
+
+\newcommand{\jajblock@begin}[1]{% #1 = '' | ' alerted' | ' example'
+  \par\vskip0pt
+  \ifbeamercolorempty[bg]{block body#1}%
+    {\def\jajblock@bodypad{0pt}}{\def\jajblock@bodypad{\jajblock@pad}}%
+  \ifbeamercolorempty[bg]{block title#1}{%
+    %% No title background: colored title over a rule
+    {\usebeamercolor[fg]{block title#1}\usebeamerfont{block title}%
+     \raggedright\insertblocktitle\par}%
+    \vskip0.4ex
+    {\usebeamercolor[bg]{block rule#1}\hbox{\rule{\linewidth}{0.3ex}}}%
+    \vskip1ex
+  }{%
+    %% Filled title bar
+    \begin{beamercolorbox}[wd=\linewidth, leftskip=\jajblock@pad,
+        rightskip=\jajblock@pad, ht=2.5ex, dp=1.1ex]{block title#1}%
+      \usebeamerfont{block title}%
+      \rightskip=\dimexpr\jajblock@pad\relax plus 1fil\relax
+      \insertblocktitle
+    \end{beamercolorbox}%
+    %% a filled body sits flush against the bar; a plain body gets a gap
+    \ifdim\jajblock@bodypad>0pt \else\vskip1ex\fi
+  }%
+  \usebeamerfont{block body}%
+  \begin{beamercolorbox}[wd=\linewidth, leftskip=\jajblock@bodypad,
+      rightskip=\jajblock@bodypad, vmode]{block body#1}%
+    \jajblockalign
+    \setlength{\parskip}{1ex}%
+    \ifdim\jajblock@bodypad>0pt \vskip\jajblock@pad\fi
+}
+\newcommand{\jajblock@end}{%
+    \ifdim\jajblock@bodypad>0pt \vskip\jajblock@pad\fi
+  \end{beamercolorbox}%
+  \vskip\jajblockafter}
+
+\setbeamertemplate{block begin}{\jajblock@begin{}}
+\setbeamertemplate{block end}{\jajblock@end}
+\setbeamertemplate{block alerted begin}{\jajblock@begin{ alerted}}
+\setbeamertemplate{block alerted end}{\jajblock@end}
+\setbeamertemplate{block example begin}{\jajblock@begin{ example}}
+\setbeamertemplate{block example end}{\jajblock@end}
+
+\mode<all>

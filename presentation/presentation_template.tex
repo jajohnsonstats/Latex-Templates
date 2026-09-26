@@ -1,0 +1,111 @@
+%% =============================================================
+%%   Presentation Template
+%% =============================================================
+
+%% ---------------------- DOCUMENT MODE ------------------------
+\newif\ifdraftmode
+\draftmodetrue      %% \draftmodetrue (TODOs visible) or \draftmodefalse
+
+\documentclass[10pt, aspectratio=169]{beamer}
+
+%% ---------------------- THEME -------------------------------
+\usetheme[institution=uwmadison]{jajtalk} %% Options: institution=<name>, nologo, nosectionslides, noslidenumbers
+
+%% ---------------------- PACKAGES ----------------------------
+\usepackage{jaj-macros}
+\usepackage{graphicx}
+\graphicspath{{figures/}}
+\usepackage{booktabs}
+\usepackage{siunitx}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{appendixnumberbeamer}   %% backup slides after \appendix don't count in the total
+\usepackage[authoryear,round]{natbib}
+\usepackage{soul}                   %% \hl{...}
+
+\ifdraftmode
+  \renewcommand{\todo}[1]{\textcolor{red}{[TODO: #1]}}
+\else
+  \renewcommand{\todo}[1]{\GenericWarning{}{TODO left in document: #1}}
+\fi
+
+%% ---------------------- TITLE INFO --------------------------
+\title[Short title for the footer]{Full Title of the Talk}
+%% \subtitle{Optional subtitle}
+\author{Jacob A. Johnson}
+\institute{Department of Statistics, University of Wisconsin--Madison}
+\event{Statistics Department Student Lightning Talks \quad Madison, WI}
+\date{November 11, 2025}
+
+\hypersetup{pdftitle={Full Title of the Talk}, pdfauthor={Jacob A. Johnson}}
+
+
+%% ---------------------- DOCUMENT ----------------------------
+\begin{document}
+
+\begin{frame}[plain,noframenumbering]
+  \titlepage
+\end{frame}
+
+\begin{frame}{Overview}
+  \begin{itemize}
+    \item A point, with an \alert{alerted phrase}
+    \item Another point
+    \begin{itemize}
+      \item A sub-point
+    \end{itemize}
+  \end{itemize}
+  \todo{Delete this example}
+\end{frame}
+
+\section{Methods}
+
+\begin{frame}{A Frame with Blocks}{And an optional subtitle}
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \begin{block}{Model}
+        $\by(\bs) = \bX(\bs)\bfbeta + w(\bs) + \bfeta$, with $w \sim \GP(0, K_{\bftheta})$.
+      \end{block}
+      \begin{theorem}[Optional name]
+        A result, typeset inline and numbered.
+      \end{theorem}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \begin{alertblock}{Key Result}
+        The one thing people should remember.
+      \end{alertblock}
+      \begin{exampleblock}{Example}
+        A quieter block for asides.
+      \end{exampleblock}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\section{Results}
+
+\begin{frame}{A Figure}
+  %% \centering
+  %% \includegraphics[width=0.8\textwidth]{result.pdf}
+  Results go here.
+\end{frame}
+
+\begin{frame}{Summary}
+  \begin{enumerate}
+    \item First takeaway
+    \item Second takeaway
+  \end{enumerate}
+\end{frame}
+
+%% ---------------------- REFERENCES & BACKUP -----------------
+%% \begin{frame}[allowframebreaks]{References}
+%%   \footnotesize
+%%   \bibliographystyle{plainnat}
+%%   \bibliography{references}
+%% \end{frame}
+
+\appendix
+\begin{frame}{Backup Slide}
+  Extra material for questions. Not counted in the slide total.
+\end{frame}
+
+\end{document}

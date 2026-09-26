@@ -1,0 +1,21 @@
+%% jaj-inst-generic.def
+%% Neutral, institution-free branding: a starting point for a new
+%% institution, and a safe choice for talks not tied to one.
+\ProvidesFile{jaj-inst-generic.def}[2026/09/27 Neutral institution data]
+
+\def\jajInstName{}
+\def\jajInstShortName{}
+
+\definecolor{jajPrimary}  {HTML}{1F3A5F}   % navy
+\definecolor{jajDark}     {HTML}{12243B}   % dark navy
+\definecolor{jajLight}    {HTML}{E8ECF1}   % light blue-gray
+\definecolor{jajText}     {HTML}{1A1A1A}
+\definecolor{jajOnPrimary}{HTML}{FFFFFF}
+\definecolor{jajLink}     {HTML}{1F6FB2}
+
+\def\jajInstFonts{\RequirePackage[scaled=0.95]{helvet}}   % Helvetica
+
+\def\jajInstLogo{}       % no logos
+\def\jajInstLogoWide{}
+
+\endinput

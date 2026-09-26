@@ -1,0 +1,158 @@
+%% =============================================================
+%%   Article Template
+%% =============================================================
+
+%% ---------------------- DOCUMENT MODE ------------------------
+%% These options are independent and can be stacked together
+%% draftmode  : TODOs visible (red). In final mode they vanish but
+%%              each one still triggers a warning in the .log.
+%% reviewmode : line numbers + double spacing, for journal submission.
+
+\newif\ifdraftmode
+\newif\ifreviewmode
+\draftmodetrue      %% \draftmodetrue   or \draftmodefalse
+\reviewmodefalse    %% \reviewmodetrue  or \reviewmodefalse
+
+\documentclass[12pt]{article}                %% One-column
+%%\documentclass[12pt,twocolumn]{article}    %% Two-column
+
+%% ---------------------- BASIC PACKAGES -----------------------
+%% Fonts & Typography
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage[english]{babel}
+
+%% Math & Notation
+\usepackage{amsthm}
+\usepackage{jaj-macros}
+
+%% Layout
+\usepackage[margin=1in]{geometry}
+\usepackage{setspace}
+\usepackage{enumitem}
+
+%% Authors & Affiliations
+\usepackage{authblk}
+\renewcommand\Affilfont{\small}
+
+%% Figures
+\usepackage{graphicx}
+\graphicspath{{figures/}}
+
+%% Tables
+\usepackage{booktabs}
+\usepackage{siunitx}
+\usepackage{caption}
+\usepackage{subcaption}
+
+%% Algorithms
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+%% Bibliography
+\usepackage[authoryear,round]{natbib}    %% \citet{key} -> Author (Year); \citep{key} -> (Author, Year)
+
+%% Hyperlinks
+\usepackage[
+	colorlinks=true,
+	linkcolor=blue!60!black,
+	citecolor=blue!60!black,
+	urlcolor=blue!60!black
+]{hyperref}
+\hypersetup{
+	pdftitle={Title of the Article},
+	pdfauthor={Jacob A. Johnson}
+}
+\usepackage[capitalise,noabbrev]{cleveref}
+
+%% Theorems
+\usepackage{jaj-theorems}
+
+%% ---------------------- SUPPLEMENT CROSS-REFERENCES ----------
+%% \usepackage{xr-hyper}
+%% \externaldocument[S-]{supplement}
+
+%% ---------------------- DRAFT / REVIEW SETTINGS --------------
+\usepackage{soul}             %% \hl{...} highlighting; loaded in every mode
+\usepackage[left]{lineno}
+\renewcommand\linenumberfont{\normalfont\tiny\sffamily\color{gray}}
+
+\ifreviewmode
+	\linenumbers
+	\doublespacing
+\fi
+
+\ifdraftmode
+	\renewcommand{\todo}[1]{\textcolor{red}{[TODO: #1]}}
+\else
+	\renewcommand{\todo}[1]{\GenericWarning{}{TODO left in document: #1}}
+\fi
+
+
+%% ---------------------- TITLE INFO ---------------------------
+\title{Title of the Article}
+
+\author[1]{Jacob A.\ Johnson\thanks{Corresponding author: \texttt{jajohnsonstats@gmail.com}}}
+\author[1]{Coauthor 1}
+\author[2]{Coauthor 2}
+\affil[1]{Department of Statistics, University of Wisconsin--Madison}
+\affil[2]{Their Affiliation}
+
+\date{\today}
+
+
+%% ---------------------- DOCUMENT -----------------------------
+\begin{document}
+
+	\maketitle
+
+	\begin{abstract}
+		Abstract goes here.
+
+		\medskip
+		\noindent\textbf{Keywords:} keyword 1; keyword 2
+	\end{abstract}
+
+	\section{Introduction}
+	\label{sec:intro}
+	\input{sections/introduction}
+
+	\section{Background}
+	\label{sec:background}
+	\input{sections/background}
+
+	\section{Methods}
+	\label{sec:methods}
+	\input{sections/methods}
+
+	\section{Results}
+	\label{sec:results}
+	\input{sections/results}
+
+	\section{Discussion}
+	\label{sec:discussion}
+	\input{sections/discussion}
+
+	\section{Conclusion}
+	\label{sec:conclusion}
+	\input{sections/conclusion}
+
+	%% ---------------------- BACK MATTER --------------------------
+	\section*{Acknowledgments}
+	Funding sources, grant numbers, computing resources (e.g., CHTC at UW--Madison).
+
+	\section*{Data Availability Statement}
+	Where data and code can be found (repository URL, DOI).
+
+	%% ---------------------- BIBLIOGRAPHY -------------------------
+	\bibliographystyle{plainnat}    %% Prints DOIs/URLs; swap for a journal .bst at submission
+	\bibliography{references}       %% references.bib lives in this project's folder
+
+	%% ---------------------- APPENDIX -----------------------------
+	\appendix
+	\section{Proofs}
+	\label{app:proofs}
+	%% \input{sections/appendix}
+
+\end{document}

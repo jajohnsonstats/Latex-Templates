@@ -1,0 +1,60 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{jaj-branding}[2026/09/25 Institution colors, fonts and logos]
+
+%% Usage:
+%%   \usepackage[institution=uwmadison]{jaj-branding}
+%% loads jaj-inst-uwmadison.def and then
+%%   - defines the six semantic colors (jajPrimary, jajDark, jajLight,
+%%     jajText, jajOnPrimary, jajLink)
+%%   - sets the sans-serif font (beamer's text font)
+%%   - defines \jajlogo and \jajwidelogo (see LOGOS below)
+%% The beamer themes load this for you; articles normally don't need it.
+%%
+\RequirePackage{kvoptions}
+\SetupKeyvalOptions{family=jajbrand, prefix=jajbrand@}
+\DeclareStringOption[uwmadison]{institution}
+\ProcessKeyvalOptions*
+
+\RequirePackage{xcolor}
+\RequirePackage{graphicx}
+
+%% --------------------------- INSTITUTION ---------------------------
+\InputIfFileExists{jaj-inst-\jajbrand@institution.def}{}{%
+  \PackageError{jaj-branding}{No file jaj-inst-\jajbrand@institution.def}{%
+    Institution files live in shared/tex/latex/jaj/institutions/<name>/.
+    Copy the uwmadison/ folder to \jajbrand@institution/, rename the .def
+    inside to jaj-inst-\jajbrand@institution.def, edit it, and
+    refresh the MiKTeX file name database.}}
+
+%% ------------------------------ FONTS ------------------------------
+%% pdfLaTeX fonts included in MiKTeX. The institution file supplies the
+%% sans-serif font (beamer's text font) through \jajInstFonts.
+\RequirePackage[T1]{fontenc}
+\RequirePackage{lmodern}
+\jajInstFonts
+\newcommand{\jajheadfamily}{\sffamily}   % titles and block headings
+
+%% ------------------------------ LOGOS ------------------------------
+%% Two logos per institution (either may be empty in the .def):
+%%   \jajlogo[<includegraphics options>]      the mark/crest (\jajInstLogo)
+%%   \jajwidelogo[<includegraphics options>]  the wide lockup with the
+%%                                            name (\jajInstLogoWide)
+%% A missing file inserts nothing (plus one log warning), so a template
+%% never fails to build. \jajiflogo / \jajifwidelogo {<yes>}{<no>} test
+%% whether the file is available.
+\newcommand{\jajbrand@if}[3]{% #1 = file name
+  \ifx#1\@empty #3\else\IfFileExists{#1}{#2}{#3}\fi}
+\newcommand{\jajbrand@put}[2]{% #1 = file macro, #2 = options
+  \jajbrand@if{#1}{\includegraphics[#2]{#1}}{%
+    \ifx#1\@empty\else
+      \expandafter\ifx\csname jajbrand@warned@#1\endcsname\relax
+        \PackageWarning{jaj-branding}{Logo file "#1" not found; leaving it out}%
+        \expandafter\gdef\csname jajbrand@warned@#1\endcsname{}%
+      \fi
+    \fi}}
+\newcommand{\jajiflogo}{\jajbrand@if{\jajInstLogo}}
+\newcommand{\jajifwidelogo}{\jajbrand@if{\jajInstLogoWide}}
+\newcommand{\jajlogo}[1][]{\jajbrand@put{\jajInstLogo}{#1}}
+\newcommand{\jajwidelogo}[1][]{\jajbrand@put{\jajInstLogoWide}{#1}}
+
+\endinput

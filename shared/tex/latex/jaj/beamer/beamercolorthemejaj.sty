@@ -1,0 +1,54 @@
+%% beamercolorthemejaj.sty
+%% Maps the six semantic colors from jaj-branding (jajPrimary, jajDark, jajLight, jajText, jajOnPrimary, jajLink) onto beamer's color slots.
+%% Institution-agnostic: never put a hex code in this file.
+\ProvidesPackage{beamercolorthemejaj}[2026/09/25 Semantic color theme]
+
+\mode<presentation>
+
+%% Text and background
+\setbeamercolor{normal text}{fg=jajText, bg=white}
+\setbeamercolor{background canvas}{bg=white}
+\setbeamercolor{structure}{fg=jajPrimary}
+\setbeamercolor{alerted text}{fg=jajPrimary}
+\setbeamercolor{example text}{fg=jajDark}
+
+%% Title areas
+\setbeamercolor{headline}{fg=jajOnPrimary, bg=jajPrimary}
+\setbeamercolor{headline title}{fg=jajOnPrimary}
+\setbeamercolor{headline author}{fg=jajOnPrimary}
+\setbeamercolor{headline institute}{fg=jajOnPrimary}
+\setbeamercolor{headline rule}{bg=jajDark}
+\setbeamercolor{footline}{fg=jajOnPrimary, bg=jajPrimary}
+\setbeamercolor{title}{fg=jajPrimary}
+\setbeamercolor{subtitle}{fg=jajText}
+\setbeamercolor{frametitle}{fg=jajPrimary}
+\setbeamercolor{framesubtitle}{fg=jajText}
+\setbeamercolor{frametitle rule}{bg=jajPrimary}
+\setbeamercolor{footline text}{fg=jajText!60}      % talk footer, title-slide details
+
+%% Blocks: standard -> filled title bar, white body
+\setbeamercolor{block title}{fg=jajOnPrimary, bg=jajPrimary}
+\setbeamercolor{block body}{fg=jajText, bg=}
+%% Alert blocks: dark title bar, light body (the "key result" box)
+\setbeamercolor{block title alerted}{fg=jajOnPrimary, bg=jajDark}
+\setbeamercolor{block body alerted}{fg=jajText, bg=jajLight}
+%% Example blocks: no bar, colored title over a rule (quiet sections)
+\setbeamercolor{block title example}{fg=jajPrimary, bg=}
+\setbeamercolor{block rule example}{bg=jajPrimary}
+\setbeamercolor{block body example}{fg=jajText, bg=}
+
+%% Lists, headings, captions, theorems
+\setbeamercolor{item}{fg=jajPrimary}
+\setbeamercolor{enumerate item}{fg=jajPrimary}
+\setbeamercolor{heading}{fg=jajDark}
+\setbeamercolor{caption name}{fg=jajDark}
+\setbeamercolor{theorem head}{fg=jajDark}
+
+%% Bibliography: plain text, no colored parts
+\setbeamercolor{bibliography item}{fg=jajText}
+\setbeamercolor{bibliography entry author}{fg=jajText}
+\setbeamercolor{bibliography entry title}{fg=jajText}
+\setbeamercolor{bibliography entry location}{fg=jajText}
+\setbeamercolor{bibliography entry note}{fg=jajText}
+
+\mode<all>

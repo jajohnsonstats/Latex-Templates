@@ -1,0 +1,160 @@
+%% beamerthemejajposter.sty
+%% Poster layout theme for beamer + beamerposter.
+%%
+%%   \usetheme[institution=uwmadison]{jajposter}
+%%
+%% Layout only. Colors come from beamercolorthemejaj (semantic names) and
+%% the institution file jaj-inst-<institution>.def via jaj-branding.
+%%
+%% Derived from the Gemini theme by Anish Athalye
+%% (https://github.com/anishathalye/gemini), MIT License:
+%%   Copyright (c) 2018 Anish Athalye
+%%   Permission is hereby granted, free of charge, to any person obtaining a
+%%   copy of this software and associated documentation files (the
+%%   "Software"), to deal in the Software without restriction, including
+%%   without limitation the rights to use, copy, modify, merge, publish,
+%%   distribute, sublicense, and/or sell copies of the Software, and to
+%%   permit persons to whom the Software is furnished to do so, subject to
+%%   the following conditions: The above copyright notice and this
+%%   permission notice shall be included in all copies or substantial
+%%   portions of the Software. THE SOFTWARE IS PROVIDED "AS IS", WITHOUT
+%%   WARRANTY OF ANY KIND.
+\ProvidesPackage{beamerthemejajposter}[2026/09/25 Poster layout theme]
+
+%% ----------------------------- OPTIONS -----------------------------
+\def\jajposter@inst{uwmadison}
+\DeclareOptionBeamer{institution}{\def\jajposter@inst{#1}}
+\ProcessOptionsBeamer
+
+%% --------------------------- DEPENDENCIES --------------------------
+\edef\jajposter@load{\noexpand\RequirePackage[institution=\jajposter@inst]{jaj-branding}}
+\jajposter@load
+\RequirePackage{calc}
+\usecolortheme{jaj}
+\usefonttheme{professionalfonts}   % leave math fonts alone
+
+%% ----------------------------- FONTS -------------------------------
+\setbeamerfont{headline title}{family=\jajheadfamily, size=\VeryHuge, series=\bfseries}
+\setbeamerfont{headline author}{size=\LARGE}
+\setbeamerfont{headline institute}{size=\large}
+\setbeamerfont{block title}{size=\Large}
+\setbeamerfont{caption}{size=\small}
+\setbeamerfont{footline}{size=\normalsize}
+
+%% ----------------------------- LAYOUT ------------------------------
+%% Load beamerposter BEFORE this theme: the margins below are computed
+%% from the final \paperwidth.
+%%
+%% Column geometry. In the preamble:
+%%   \jajcolumns{3}            number of columns (default 3)
+%%   \jajcolumnsep{0.025}      gap between columns = outer margin, as a
+%%                             fraction of \paperwidth (default 0.025)
+%% Then in the frame:
+%%   \begin{postercolumns}
+%%     \begin{column}{\colwidth} ... \end{column}
+%%     \separatorcolumn
+%%     \begin{column}{\colwidth} ... \end{column}
+%%   \end{postercolumns}
+%% with \separatorcolumn only BETWEEN columns. The outer margins then
+%% equal \sepwidth exactly and line up with the headline and footline.
+\newlength{\sepwidth}
+\newlength{\colwidth}
+\def\jajposter@ncols{3}
+\newcommand{\jajcolumns}[1]{\def\jajposter@ncols{#1}}
+\newcommand{\jajcolumnsep}[1]{%
+  \setlength{\sepwidth}{#1\paperwidth}%
+  \setbeamersize{text margin left=\sepwidth, text margin right=\sepwidth}}
+\jajcolumnsep{0.025}
+\newcommand{\separatorcolumn}{\begin{column}{\sepwidth}\end{column}}
+\newenvironment{postercolumns}[1][t]%
+  {\begin{columns}[#1,onlytextwidth]}%
+  {\end{columns}}
+
+%% Logo height in the headline; set in the preamble with \setlength if needed.
+\newlength{\jajlogoheight}
+\setlength{\jajlogoheight}{0pt}
+
+\AtBeginDocument{%
+  \setlength{\colwidth}{\dimexpr(\textwidth-\numexpr\jajposter@ncols-1\relax\sepwidth)/\jajposter@ncols\relax}%
+  \ifdim\jajlogoheight=0pt \setlength{\jajlogoheight}{0.055\paperheight}\fi
+}
+
+\beamertemplatenavigationsymbolsempty
+
+%% ------------------ SHARED INNER THEME + POSTER TWEAKS -------------
+%% Blocks, lists, theorems, captions, bibliography: beamerinnerthemejaj.
+\useinnertheme{jaj}
+\renewcommand{\jajblockalign}{\justifying}
+\renewcommand{\jajblockafter}{3ex}
+\def\@listi{\leftmargin\leftmargini \topsep 1ex \parsep 0\p@ \@plus\p@ \itemsep 0.5ex}
+\setlength\belowdisplayshortskip{2ex}
+\setlength{\abovecaptionskip}{2ex}
+\setlength{\belowcaptionskip}{1ex}
+
+%% ----------------------------- LOGOS -------------------------------
+%% \logoright{...} and \logoleft{...} take any content (usually
+%% \includegraphics). By default the institution logo goes on the right;
+%% \logoright{} removes it. Equal space is reserved on both sides so the
+%% title stays centered.
+\def\jajposter@logoL{}
+\def\jajposter@logoR{\jajlogo[height=\jajlogoheight]}
+\newcommand{\logoleft}[1]{\def\jajposter@logoL{#1}}
+\newcommand{\logoright}[1]{\def\jajposter@logoR{#1}}
+
+\newlength{\jajposter@logow}
+\newlength{\jajposter@tmpw}
+\newcommand{\jajposter@measurelogos}{%
+  \settowidth{\jajposter@logow}{\jajposter@logoL}%
+  \settowidth{\jajposter@tmpw}{\jajposter@logoR}%
+  \ifdim\jajposter@tmpw>\jajposter@logow \setlength{\jajposter@logow}{\jajposter@tmpw}\fi}
+
+%% ---------------------------- HEADLINE -----------------------------
+\setbeamertemplate{headline}{%
+  \jajposter@measurelogos
+  \begin{beamercolorbox}[wd=\paperwidth]{headline}%
+    \vskip4ex
+    \hbox to \paperwidth{%
+      \hskip\sepwidth
+      \parbox[c]{\jajposter@logow}{\raggedright\jajposter@logoL}%
+      \hfill
+      \parbox[c]{\dimexpr\paperwidth-2\sepwidth-2\jajposter@logow-2\sepwidth\relax}{%
+        \centering
+        \ifx\inserttitle\@empty\else
+          {\usebeamerfont{headline title}\usebeamercolor[fg]{headline title}\inserttitle\par}%
+          \vskip1ex
+        \fi
+        \ifx\beamer@shortauthor\@empty\else
+          {\usebeamerfont{headline author}\usebeamercolor[fg]{headline author}\insertauthor\par}%
+          \vskip0.75ex
+        \fi
+        \ifx\insertinstitute\@empty\else
+          {\usebeamerfont{headline institute}\usebeamercolor[fg]{headline institute}\insertinstitute\par}%
+        \fi}%
+      \hfill
+      \parbox[c]{\jajposter@logow}{\raggedleft\jajposter@logoR}%
+      \hskip\sepwidth}%
+    \vskip4ex
+  \end{beamercolorbox}%
+  \ifbeamercolorempty[bg]{headline rule}{}{%
+    {\usebeamercolor[bg]{headline rule}\hbox{\rule{\paperwidth}{0.5ex}}}}%
+  \vskip2.5ex
+}
+
+%% ----------------------------- FOOTER ------------------------------
+%% \footercontent{left \hfill center \hfill right}
+\newcommand{\footercontent}[1]{\def\jajposter@footer{#1}}
+\setbeamertemplate{footline}{%
+  \ifdefined\jajposter@footer
+    \ifbeamercolorempty[bg]{headline rule}{}{%
+      {\usebeamercolor[bg]{headline rule}\hbox{\rule{\paperwidth}{0.25ex}}}}%
+    \begin{beamercolorbox}[wd=\paperwidth]{footline}%
+      \vskip1.5ex
+      \hbox to \paperwidth{%
+        \hskip\sepwidth
+        \parbox{\dimexpr\paperwidth-2\sepwidth\relax}{\usebeamerfont{footline}\jajposter@footer}%
+        \hskip\sepwidth}%
+      \vskip1.5ex
+    \end{beamercolorbox}%
+  \fi}
+
+\mode<all>

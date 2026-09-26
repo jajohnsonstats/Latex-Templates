@@ -1,0 +1,45 @@
+%% jaj-inst-uwmadison.def
+%% Institution data for University of Wisconsin--Madison.
+%%
+%% This file holds DATA ONLY: colors, font, logos, and names. All layout
+%% lives in the themes, so switching institutions means copying this file
+%% to jaj-inst-<newname>.def, changing the values below, and loading
+%%     \usetheme[institution=<newname>]{jajposter}
+%%
+%% Colors: UW--Madison Brand and Visual Identity, brand.wisc.edu
+%% (Colors page, checked 2026-09).
+\ProvidesFile{jaj-inst-uwmadison.def}[2026/09/25 UW--Madison institution data]
+
+%% ---------------------------- NAMES --------------------------------
+\def\jajInstName{University of Wisconsin--Madison}
+\def\jajInstShortName{UW--Madison}
+
+%% ---------------------------- COLORS -------------------------------
+%% Every theme uses only these six semantic names. Keep all six.
+%%   jajPrimary    main brand color: headline, block title bars, bullets
+%%   jajDark       darker companion: alert-block titles, rules, headings
+%%   jajLight      light neutral: alert-block backgrounds
+%%   jajText       body text
+%%   jajOnPrimary  text drawn on top of jajPrimary / jajDark
+%%   jajLink       hyperlinks on light backgrounds
+\definecolor{jajPrimary}  {HTML}{C5050C}   % Badger Red
+\definecolor{jajDark}     {HTML}{9B0000}   % Dark Red
+\definecolor{jajLight}    {HTML}{E1E5E7}   % Light Gray
+\definecolor{jajText}     {HTML}{121212}   % Black
+\definecolor{jajOnPrimary}{HTML}{FFFFFF}   % White
+\definecolor{jajLink}     {HTML}{0479A8}   % Link Blue
+%% Print (CMYK) breaks, if a print shop asks: Badger Red 3/100/66/12 (PMS 200 C).
+
+%% ---------------------------- FONTS --------------------------------
+%% pdfLaTeX font package(s) for the sans-serif text font; must be included
+%% in MiKTeX. Helvetica (helvet) is the default; other options include
+%% \RequirePackage[default]{sourcesanspro} or \RequirePackage[sfdefault]{roboto}.
+\def\jajInstFonts{\RequirePackage[scaled=0.95]{helvet}}
+
+%% ---------------------------- LOGOS --------------------------------
+%% File names only; the files live in the same folder as this .def. Official files:
+%% brand.wisc.edu -> Logos. Leave a name empty ({}) for "no logo".
+\def\jajInstLogo{UW_crest.pdf}                  % crest alone: frame titles, poster header
+\def\jajInstLogoWide{UW_main_compact_white.pdf} % crest + name: title slide
+
+\endinput
