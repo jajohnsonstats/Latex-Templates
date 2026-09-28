@@ -22,8 +22,8 @@
 %%   jajText       body text
 %%   jajOnPrimary  text drawn on top of jajPrimary / jajDark
 %%   jajLink       hyperlinks on light backgrounds
-\definecolor{jajPrimary}  {HTML}{C5050C}   % Badger Red
-\definecolor{jajDark}     {HTML}{9B0000}   % Dark Red
+\definecolor{jajPrimary}  {HTML}{9B0000}   % Badger Red
+\definecolor{jajDark}     {HTML}{C5050C}   % Dark Red
 \definecolor{jajLight}    {HTML}{E1E5E7}   % Light Gray
 \definecolor{jajText}     {HTML}{121212}   % Black
 \definecolor{jajOnPrimary}{HTML}{FFFFFF}   % White
